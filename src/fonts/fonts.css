@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'OpenSans-Regular';
+    src: local('OpenSans-Regular.ttf'), url('./OpenSans-Regular.ttf');
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Medium.woff2') format('woff2')
+}
