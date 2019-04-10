@@ -1,6 +1,11 @@
 # Jackie Blog
 
-> Base react and antd component
+## Slow construction due to interest
+
+- [x] Basic Boilerplate
+- [ ] UI Layout
+- [ ] Cache
+- [ ] Optimize
 
 ## Development
 
@@ -9,6 +14,7 @@
 ```sh
 $ yarn
 ```
+
 ### Usage
 
 ```sh
