@@ -1,8 +1,10 @@
 import React from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import PropTypes from 'prop-types';
 import {
   Route as BasicRoute,
   Switch,
-  Router,
+  Router
   // Redirect,
 } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
@@ -13,14 +15,13 @@ import Loading from 'components/loading';
 import 'common/common.css';
 
 class AsyncComponent extends React.Component {
-  static Component = null;
+  static propTypes = {
+    getComponent: PropTypes.func.isRequired
+  };
 
   constructor(props) {
     super(props);
     this.state = { Component: null };
-  }
-
-  componentWillMount() {
     const { Component } = this.state;
     if (!Component) {
       this._rerenderComponent();
@@ -35,11 +36,14 @@ class AsyncComponent extends React.Component {
 
   _rerenderComponent() {
     const { getComponent } = this.props;
-    return getComponent().then((Component) => {
-      this.setState({ Component });
-    }, () => {
-      this.setState({ Component: NoMatch });
-    });
+    return getComponent().then(
+      Component => {
+        this.setState({ Component });
+      },
+      () => {
+        this.setState({ Component: NoMatch });
+      }
+    );
   }
 
   render() {
@@ -55,7 +59,9 @@ const asyncComponent = getComponent => props => (
   <AsyncComponent getComponent={getComponent} {...props} />
 );
 
-const Home = asyncComponent(() => import(/* webpackChunkName: "Home" */'containers/home').then(module => module.default));
+const Home = asyncComponent(() =>
+  import(/* webpackChunkName: "Home" */ 'containers/home').then(module => module.default)
+);
 
 const history = createBrowserHistory();
 

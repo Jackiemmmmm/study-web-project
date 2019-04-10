@@ -1,16 +1,22 @@
 import React, { PureComponent } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import PropTypes from 'prop-types';
 
 class NoMatch extends PureComponent {
+  static propTypes = {
+    history: PropTypes.shape({
+      replace: PropTypes.func.isRequired
+    }).isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      time: 3,
+      time: 3
     };
     this.timeout = null;
     this.renderTimeout = null;
-  }
 
-  componentWillMount() {
     const { history } = this.props;
     for (let i = 1; i < 4; i += 1) {
       this.renderTimeout = setTimeout(() => {
