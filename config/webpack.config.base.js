@@ -9,19 +9,17 @@ const ROOT_PATH = resolve(__dirname);
 const BASE_PATH = resolve(ROOT_PATH, '../src');
 const BUILD_PATH = resolve(ROOT_PATH, '../build');
 
-console.log(BASE_PATH);
-
 const commonExtract = new MiniCssExtractPlugin({
-  filename: devMode ? 'assets/[name].bundle.css' : 'assets/[name].bundle.css?v=[contenthash:5]',
+  filename: devMode ? 'assets/[name].bundle.css' : 'assets/[name].bundle.css?v=[contenthash:5]'
 });
 
 exports.baseConfig = {
   entry: {
-    vendor: [BASE_PATH],
+    vendor: [BASE_PATH]
   },
   output: {
     publicPath: '/',
-    path: BUILD_PATH,
+    path: BUILD_PATH
   },
   optimization: {
     splitChunks: {
@@ -31,21 +29,21 @@ exports.baseConfig = {
         commons: {
           name: 'commons',
           chunks: 'all',
-          minChunks: 2,
+          minChunks: 2
         },
         modules: {
           test: /[\\/]node_modules[\\/]/,
           name: 'modules',
-          chunks: 'all',
+          chunks: 'all'
         },
         styles: {
           name: 'styles',
           test: /\.css$/,
           chunks: 'all',
-          enforce: true,
-        },
-      },
-    },
+          enforce: true
+        }
+      }
+    }
   },
   module: {
     rules: [
@@ -59,11 +57,11 @@ exports.baseConfig = {
               modules: true,
               sourceMap: true,
               importLoaders: 1,
-              localIdentName: '[local]',
-            },
+              localIdentName: '[local]'
+            }
           },
-          'postcss-loader',
-        ],
+          'postcss-loader'
+        ]
       },
       {
         test: /\.(ttf|eot|otf|woff(2)?)(\?[a-z0-9]+)?$/,
@@ -71,65 +69,64 @@ exports.baseConfig = {
         loader: 'url-loader',
         options: {
           limit: 1024,
-          name: 'fonts/[name].[ext]',
-        },
+          name: 'fonts/[name].[ext]'
+        }
       },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: 'babel-loader'
       },
       {
         test: /\.svg$/,
-        use: [
-          'babel-loader',
-          'svg-react-loader',
-        ],
+        use: ['babel-loader', 'svg-react-loader']
       },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'eslint-loader',
         // section to check source files, not modified by other loaders
-        enforce: 'pre',
-      },
-    ],
+        enforce: 'pre'
+      }
+    ]
   },
   resolve: {
-    modules: [
-      'src',
-      'node_modules',
-    ],
+    modules: ['src', 'node_modules'],
     extensions: ['.js', '.jsx', '.json'],
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-      },
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
+      }
     }),
     new HtmlwebpackPlugin({
       template: 'src/index.html',
       chunks: ['vendor'],
       // inject: false,
       // process: devMode,
-      minify: !devMode ? {
-        removeAttributeQuotes: true,
-        // removeComments: true,
-        collapseWhitespace: true,
-        minifyCSS: true,
-        minifyJS: !devMode,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyURLs: true,
-      } : '',
+      minify: !devMode
+        ? {
+            removeAttributeQuotes: true,
+            // removeComments: true,
+            collapseWhitespace: true,
+            minifyCSS: true,
+            minifyJS: !devMode,
+            removeRedundantAttributes: true,
+            useShortDoctype: true,
+            removeEmptyAttributes: true,
+            removeStyleLinkTypeAttributes: true,
+            keepClosingSlash: true,
+            minifyURLs: true
+          }
+        : ''
     }),
     commonExtract,
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin()
     // new BundleAnalyzerPlugin(),
   ],
   devServer: {
@@ -140,7 +137,7 @@ exports.baseConfig = {
     port: 3005,
     host: '0.0.0.0',
     historyApiFallback: {
-      disableDotRule: true,
-    },
-  },
+      disableDotRule: true
+    }
+  }
 };

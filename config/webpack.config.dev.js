@@ -6,7 +6,7 @@ module.exports = Object.assign({}, baseConfig, {
   devtool: 'eval',
   output: Object.assign({}, baseConfig.output, {
     filename: 'assets/[name].bundle.js',
-    chunkFilename: 'assets/[name].chunk.js',
+    chunkFilename: 'assets/[name].chunk.js'
   }),
   module: Object.assign({}, baseConfig.module, {
     rules: baseConfig.module.rules.concat([
@@ -15,20 +15,18 @@ module.exports = Object.assign({}, baseConfig, {
         loader: 'url-loader',
         options: {
           limit: 10240,
-          name: 'images/[name].[ext]',
-        },
+          name: 'images/[name].[ext]'
+        }
       },
       {
         test: /\.gif$/,
         loader: 'url-loader',
         options: {
           limit: 0,
-          name: 'images/[name].[ext]',
-        },
-      },
-    ]),
+          name: 'images/[name].[ext]'
+        }
+      }
+    ])
   }),
-  plugins: baseConfig.plugins.concat([
-    new HardSourceWebpackPlugin(),
-  ]),
+  plugins: baseConfig.plugins.concat([new HardSourceWebpackPlugin()])
 });

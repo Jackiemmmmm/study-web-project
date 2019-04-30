@@ -9,7 +9,7 @@ module.exports = Object.assign({}, baseConfig, {
   devtool: false, // 'source-map',
   output: Object.assign({}, baseConfig.output, {
     filename: 'assets/[name].bundle.js?v=[hash:5]',
-    chunkFilename: 'assets/[name].chunk.js?v=[chunkhash:5]',
+    chunkFilename: 'assets/[name].chunk.js?v=[chunkhash:5]'
   }),
   module: Object.assign({}, baseConfig.module, {
     rules: baseConfig.module.rules.concat([
@@ -18,18 +18,18 @@ module.exports = Object.assign({}, baseConfig, {
         loader: 'url-loader',
         options: {
           limit: 10240,
-          name: 'images/[name].[ext]?v=[hash:5]',
-        },
+          name: 'images/[name].[ext]?v=[hash:5]'
+        }
       },
       {
         test: /\.gif$/,
         loader: 'url-loader',
         options: {
           limit: 0,
-          name: 'images/[name].[ext]',
-        },
-      },
-    ]),
+          name: 'images/[name].[ext]'
+        }
+      }
+    ])
   }),
   plugins: baseConfig.plugins.concat([
     new SWPrecacheWebpackPlugin({
@@ -38,7 +38,7 @@ module.exports = Object.assign({}, baseConfig, {
       filename: 'blog-service-worker.js',
       minify: true,
       navigateFallback: `${PUBLIC_PATH}index.html`,
-      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/]
     }),
     new UglifyJsPlugin({
       cache: true,
@@ -55,12 +55,12 @@ module.exports = Object.assign({}, baseConfig, {
           evaluate: true,
           if_return: true,
           join_vars: true,
-          negate_iife: false,
+          negate_iife: false
         },
         output: {
-          comments: false,
-        },
-      },
-    }),
-  ]),
+          comments: false
+        }
+      }
+    })
+  ])
 });
