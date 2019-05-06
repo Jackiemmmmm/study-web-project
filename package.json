@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@hot-loader/react-dom": "16.8.6",
+    "@loadable/component": "^5.9.0",
     "axios": "^0.18.0",
     "big.js": "^5.2.2",
     "history": "^4.9.0",

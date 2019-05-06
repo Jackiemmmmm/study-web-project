@@ -126,7 +126,9 @@ exports.baseConfig = {
     }),
     commonExtract,
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin({
+      multiStep: true
+    })
     // new BundleAnalyzerPlugin(),
   ],
   devServer: {

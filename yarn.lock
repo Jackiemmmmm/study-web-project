@@ -1029,6 +1029,13 @@
     prop-types "^15.6.2"
     scheduler "^0.13.6"
 
+"@loadable/component@^5.9.0":
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.9.0.tgz#9b3e983f14c730d1c8894c352b78ebc401091f76"
+  integrity sha512-6nnIm8VthaakyCX7fQVy/nTqtIv0NZwaTJpkL0BiB9msm4mXc5v+7elq4f9LJVmSpw/xIpJMeUbYwZtBYxmlEg==
+  dependencies:
+    hoist-non-react-statics "^3.3.0"
+
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
