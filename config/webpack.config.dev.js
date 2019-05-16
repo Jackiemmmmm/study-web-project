@@ -3,7 +3,7 @@ const { baseConfig } = require('./webpack.config.base');
 
 module.exports = Object.assign({}, baseConfig, {
   mode: 'development',
-  devtool: 'eval',
+  devtool: 'cheap-module-eval-source-map',
   output: Object.assign({}, baseConfig.output, {
     filename: 'assets/[name].bundle.js',
     chunkFilename: 'assets/[name].chunk.js'
