@@ -1,50 +1,56 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 /* eslint-disable import/no-extraneous-dependencies */
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {
   Route as BasicRoute,
   Switch,
   Router
   // Redirect,
 } from 'react-router-dom';
-import { hot } from 'react-hot-loader';
+import { Provider } from 'mobx-react';
+import { hot } from 'react-hot-loader/root';
 import { createBrowserHistory } from 'history';
 import NoMatch from 'containers/no-match';
 import Layout from 'containers/layout';
-// import Loading from 'components/loading';
-import loadable from '@loadable/component';
+import Loading from 'components/loading';
 import 'common/common.css';
+import store from 'store';
 
-const Home = loadable(() => import(/* webpackChunkName: "Home" */ 'containers/home'));
+const Home = lazy(() => import(/* webpackChunkName: "Home" */ 'containers/home'));
+const Home1 = lazy(() => import(/* webpackChunkName: "Home1" */ 'containers/home/home1.js'));
 
 const history = createBrowserHistory();
 
-/**
 const Route = ({ path, exact, component: Component }) => (
-  <BasicRoute
-    exact={exact}
-    path={path}
-    render={(props) => {
-      const { location } = props;
-      const loggedIn = localStorage.getItem('loggedIn');
-      if (!loggedIn) {
-        return <Redirect to={{ pathname: '/', prevPath: location.pathname }} />;
-      }
-      return <Component {...props} />;
-    }}
-  />
+  <Suspense fallback={<Loading />}>
+    <BasicRoute
+      exact={exact}
+      path={path}
+      render={props => {
+        return <Component {...props} />;
+      }}
+    />
+  </Suspense>
 );
-*/
+
+Route.propTypes = {
+  path: PropTypes.string.isRequired,
+  exact: PropTypes.bool.isRequired,
+  component: PropTypes.object.isRequired
+};
 
 const App = () => (
-  <Router history={history}>
-    <Layout>
-      <Switch>
-        <BasicRoute exact path="/" component={Home} />
-        <BasicRoute component={NoMatch} />
-      </Switch>
-    </Layout>
-  </Router>
+  <Provider {...store}>
+    <Router history={history}>
+      <Layout>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/home1" component={Home1} />
+          <BasicRoute component={NoMatch} />
+        </Switch>
+      </Layout>
+    </Router>
+  </Provider>
 );
 
-export default hot(module)(App);
+export default hot(App);

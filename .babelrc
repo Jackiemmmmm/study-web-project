@@ -1,8 +1,5 @@
 {
-  "presets": [
-    "@babel/preset-react",
-    "@babel/preset-env"
-  ],
+  "presets": ["@babel/preset-react", "@babel/preset-env"],
   "plugins": [
     [
       "@babel/plugin-transform-runtime",
@@ -27,7 +24,7 @@
       }
     ],
     "@babel/plugin-syntax-import-meta",
-    "@babel/plugin-proposal-class-properties",
+    ["@babel/plugin-proposal-class-properties", { "loose": true }],
     "@babel/plugin-proposal-json-strings",
     "@babel/plugin-proposal-function-sent",
     "@babel/plugin-proposal-export-namespace-from",

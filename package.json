@@ -14,15 +14,15 @@
   "license": "ISC",
   "dependencies": {
     "@hot-loader/react-dom": "16.8.6",
-    "@loadable/component": "^5.9.0",
     "axios": "^0.18.0",
     "big.js": "^5.2.2",
     "history": "^4.9.0",
+    "mobx": "^4.9.4",
+    "mobx-react": "^5.4.4",
     "react": "^16.8.6",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.8.6",
     "react-hot-loader": "^4.8.4",
-    "react-intl": "^2.8.0",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0"
   },

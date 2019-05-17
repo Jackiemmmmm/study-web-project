@@ -12,7 +12,7 @@ export default class Votes extends PureComponent {
     const { test } = this.state;
     return (
       <div>
-        Home,
+        Home123456,
         {test}
       </div>
     );
