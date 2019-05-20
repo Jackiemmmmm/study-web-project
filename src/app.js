@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, Component } from 'react';
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import {
@@ -21,13 +21,41 @@ const Home1 = lazy(() => import(/* webpackChunkName: "Home1" */ 'containers/home
 
 const history = createBrowserHistory();
 
-const Route = ({ path, exact, component: Component }) => (
+export class ErrorBoundary extends Component {
+  static propTypes = {
+    children: PropTypes.element.isRequired
+  };
+
+  state = {
+    error: false
+  };
+
+  componentDidCatch(error, info) {
+    this.setState({ error: true, errorMsg: { error, info } });
+  }
+
+  render() {
+    const { children } = this.props;
+    const { error, errorMsg } = this.state;
+    if (error) {
+      console.log(errorMsg);
+      return <h2>页面出错啦！请稍后再试...</h2>;
+    }
+    return children;
+  }
+}
+
+const Route = ({ path, exact, component: ChildComponent }) => (
   <Suspense fallback={<Loading />}>
     <BasicRoute
       exact={exact}
       path={path}
       render={props => {
-        return <Component {...props} />;
+        return (
+          <ErrorBoundary>
+            <ChildComponent {...props} />
+          </ErrorBoundary>
+        );
       }}
     />
   </Suspense>

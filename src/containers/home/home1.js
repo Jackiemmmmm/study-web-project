@@ -45,6 +45,9 @@ class Test1Component extends Component {
       Test1: { test1 },
       Todo: { todos }
     } = this.props;
+    if (todos.length === 5) {
+      throw new Error('error test');
+    }
     return (
       <div>
         Home1,
