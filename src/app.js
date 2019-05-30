@@ -18,6 +18,7 @@ import store from 'store';
 
 const Home = lazy(() => import(/* webpackChunkName: "Home" */ 'containers/home'));
 const Home1 = lazy(() => import(/* webpackChunkName: "Home1" */ 'containers/home/home1.js'));
+const Effect = lazy(() => import(/* webpackChunkName: "Effect" */ 'containers/effect'));
 
 const history = createBrowserHistory();
 
@@ -38,6 +39,7 @@ export class ErrorBoundary extends Component {
     const { children } = this.props;
     const { error, errorMsg } = this.state;
     if (error) {
+      // eslint-disable-next-line no-console
       console.log(errorMsg);
       return <h2>页面出错啦！请稍后再试...</h2>;
     }
@@ -73,7 +75,8 @@ const App = () => (
       <Layout>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/home1" component={Home1} />
+          <Route exact path="/mobx-test" component={Home1} />
+          <Route exact path="/use-effect" component={Effect} />
           <BasicRoute component={NoMatch} />
         </Switch>
       </Layout>
