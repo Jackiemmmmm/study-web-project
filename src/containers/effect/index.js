@@ -1,25 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { useDebounce } from 'utils/use-effect';
+import React, { PureComponent } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import PropTypes from 'prop-types';
+import Debounce from './debounce';
+import LazyLoad from './lazy-load';
 
-export default function Demo() {
-  const [value, setValue] = useState('');
-  const [text, setText] = useState('');
-  const debouncedValue = useDebounce(value, 300);
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('title is: ', debouncedValue);
-    document.title = `${debouncedValue} :Input Value`;
-  }, [debouncedValue]);
-  return (
-    <div>
-      <input placeholder="请输入文字" value={value} onChange={e => setValue(e.target.value)} />
-      <br />
-      <input
-        placeholder="输入文字修改页面文字"
-        value={text}
-        onChange={e => setText(e.target.value)}
-      />
-      <p>{text}</p>
-    </div>
-  );
+export default class Effect extends PureComponent {
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string.isRequired
+      })
+    }).isRequired
+  };
+
+  render() {
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
+    const component = {
+      debounce: <Debounce />,
+      'lazy-load': <LazyLoad />
+    };
+    return component[id];
+  }
 }

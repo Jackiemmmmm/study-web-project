@@ -77,7 +77,7 @@ const App = () => (
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/mobx-test" component={Home1} />
-          <Route exact path="/use-effect" component={Effect} />
+          <Route exact path="/use-effect/:id" component={Effect} />
           <Route exact path="/bus" component={Bus} />
           <BasicRoute component={NoMatch} />
         </Switch>
