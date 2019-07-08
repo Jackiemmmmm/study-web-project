@@ -20,6 +20,7 @@ const Home = lazy(() => import(/* webpackChunkName: "Home" */ 'containers/home')
 const Home1 = lazy(() => import(/* webpackChunkName: "Home1" */ 'containers/home/home1.js'));
 const Effect = lazy(() => import(/* webpackChunkName: "Effect" */ 'containers/effect'));
 const Bus = lazy(() => import(/* webpackChunkName: "Bus" */ 'containers/bus'));
+const Animate = lazy(() => import(/* webpackChunkName: "Animate" */ 'containers/animate'));
 
 const history = createBrowserHistory();
 
@@ -78,6 +79,7 @@ const App = () => (
           <Route exact path="/" component={Home} />
           <Route exact path="/mobx-test" component={Home1} />
           <Route exact path="/use-effect/:id" component={Effect} />
+          <Route exact path="/sale-animate" component={Animate} />
           <Route exact path="/bus" component={Bus} />
           <BasicRoute component={NoMatch} />
         </Switch>

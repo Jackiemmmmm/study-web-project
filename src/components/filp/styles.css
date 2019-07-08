@@ -1,0 +1,16 @@
+.number-flip {
+  position: relative;
+  overflow: hidden;
+}
+
+.ctrn {
+  &-init {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.sprtr {
+  display: inline-block;
+}
