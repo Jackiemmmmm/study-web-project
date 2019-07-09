@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, forwardRef, createRef } from 'react';
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import styles from './styles.css';
@@ -44,11 +44,14 @@ export default class Flip extends PureComponent {
       delay,
       easeFn,
       systemArr,
-      node: []
+      node: [],
+      height: 0
     };
     this.beforeArr = [];
     this.afterArr = [];
     this.ctnrArr = [];
+    this.height = 0;
+    this.getRefsHeight = createRef();
   }
 
   componentDidMount() {
@@ -82,8 +85,8 @@ export default class Flip extends PureComponent {
     const digits = maxLenNum(from, to);
     const getNewNode = [];
     [...Array(digits).keys()].forEach(i => {
-      const ctnr = () => (
-        <div className={`${styles['ctrn-init']} ${styles.ctrn} ${styles[`ctrn${i}`]}`}>
+      const ctnr = forwardRef((props, ref) => (
+        <div ref={ref} className={`${styles['ctrn-init']} ${styles.ctrn} ${styles[`ctrn${i}`]}`}>
           {systemArr.map(j => (
             <div key={j} className={styles.digit}>
               {i}
@@ -91,7 +94,7 @@ export default class Flip extends PureComponent {
           ))}
           <div className={styles.digit}>{systemArr[0]}</div>
         </div>
-      );
+      ));
       this.ctnrArr.unshift(ctnr);
       getNewNode.push(ctnr);
       this.beforeArr.push(0);
@@ -103,14 +106,50 @@ export default class Flip extends PureComponent {
       getNewNode.push(sprtr);
       return null;
     });
-    this.setState({
-      node: getNewNode
-    });
+    this.setState(
+      {
+        node: getNewNode
+      },
+      () => {
+        this.height = this.getRefsHeight.current.clientHeight / (systemArr.length + 1);
+        this.setState({
+          height: this.height
+        });
+        console.log(this.ctnrArr);
+        this.ctnrArr.map((item, d) =>
+          this._draw({
+            digit: d,
+            per: 1,
+            alter: Math.floor(from / 10 ** d)
+          })
+        );
+      }
+    );
+  }
+
+  _draw({ digit, per, alter }) {
+    const { systemArr } = this.state;
+    const { clientHeight } = this.getRefsHeight.current;
+    if (this.height !== clientHeight / (systemArr.length + 1)) {
+      this.height = clientHeight / (systemArr.length + 1);
+    }
+    const from = this.beforeArr[digit];
+    const modNum = (((per * alter + from) % 10) + 10) % 10;
+    const translateY = `translateY(${-modNum * this.height}px)`;
+    console.log(this.ctnrArr[digit], translateY);
+    // this.ctnrArr[digit].style.webkitTransform = translateY;
+    // this.ctnrArr[digit].style.transform = translateY;
   }
 
   render() {
-    const { node } = this.state;
-    return <div className={styles['number-flip']}>{node.map(comp => comp)}</div>;
+    const { node, height } = this.state;
+    return (
+      <div className={styles['number-flip']} style={{ height: `${height}px` }}>
+        {node.map((Comp, i) => (
+          <Comp key={i} ref={i === 0 && this.getRefsHeight} />
+        ))}
+      </div>
+    );
   }
 }
 

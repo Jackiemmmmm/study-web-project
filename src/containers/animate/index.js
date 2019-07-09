@@ -13,7 +13,7 @@ export default function() {
   return (
     <div>
       {value}
-      <Filp />
+      <Filp to={1023} />
     </div>
   );
 }

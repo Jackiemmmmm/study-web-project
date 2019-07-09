@@ -4,6 +4,7 @@
 }
 
 .ctrn {
+  color: black;
   &-init {
     position: relative;
     display: inline-block;
