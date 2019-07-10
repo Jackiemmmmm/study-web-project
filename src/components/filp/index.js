@@ -7,6 +7,13 @@ const maxLenNum = (aNum, bNum) => (aNum > bNum ? aNum : bNum).toString().length;
 
 const isstr = any => Object.prototype.toString.call(any) === '[object String]';
 
+const num2PadNumArr = (num, len) => {
+  const padLeftStr = (rawStr, lenNum) =>
+    rawStr.length < lenNum ? padLeftStr(`0${rawStr}`, lenNum) : rawStr;
+  const str2NumArr = rawStr => rawStr.split('').map(Number);
+  return str2NumArr(padLeftStr(num.toString(), len)).reverse();
+};
+
 // 借鉴 https://github.com/gaoryrt/number-flip/blob/master/number-flip.js
 export default class Flip extends PureComponent {
   static propTypes = {
@@ -35,6 +42,7 @@ export default class Flip extends PureComponent {
       separateEvery = 3
     } = props;
     this.state = {
+      ctnrArr: [],
       duration: duration * 1000,
       from,
       to,
@@ -56,40 +64,31 @@ export default class Flip extends PureComponent {
 
   componentDidMount() {
     const {
-      beforeArr,
-      afterArr,
-      ctnrArr,
-      duration,
+      // duration,
       direct,
       separator,
       separateEvery,
       delay,
-      easeFn,
+      // easeFn,
       systemArr,
       from,
       to
     } = this.state;
-    console.log(
-      beforeArr,
-      afterArr,
-      ctnrArr,
-      duration,
-      direct,
-      separator,
-      separateEvery,
-      delay,
-      easeFn,
-      systemArr
-    );
 
     const digits = maxLenNum(from, to);
+
+    // console.log(digits);
     const getNewNode = [];
     [...Array(digits).keys()].forEach(i => {
       const ctnr = forwardRef((props, ref) => (
-        <div ref={ref} className={`${styles['ctrn-init']} ${styles.ctrn} ${styles[`ctrn${i}`]}`}>
+        <div
+          ref={ref}
+          className={`${styles['ctrn-init']} ${styles.ctrn} ${styles[`ctrn${i}`]}`}
+          style={props.propClass}
+        >
           {systemArr.map(j => (
             <div key={j} className={styles.digit}>
-              {i}
+              {j}
             </div>
           ))}
           <div className={styles.digit}>{systemArr[0]}</div>
@@ -115,7 +114,6 @@ export default class Flip extends PureComponent {
         this.setState({
           height: this.height
         });
-        console.log(this.ctnrArr);
         this.ctnrArr.map((item, d) =>
           this._draw({
             digit: d,
@@ -123,6 +121,13 @@ export default class Flip extends PureComponent {
             alter: Math.floor(from / 10 ** d)
           })
         );
+        if (to === undefined) return;
+        if (delay) {
+          setTimeout(() => this.flipTo({ to, direct }), delay * 1000);
+        } else {
+          console.log(to);
+          this.flipTo({ to, direct });
+        }
       }
     );
   }
@@ -136,9 +141,62 @@ export default class Flip extends PureComponent {
     const from = this.beforeArr[digit];
     const modNum = (((per * alter + from) % 10) + 10) % 10;
     const translateY = `translateY(${-modNum * this.height}px)`;
-    console.log(this.ctnrArr[digit], translateY);
-    // this.ctnrArr[digit].style.webkitTransform = translateY;
-    // this.ctnrArr[digit].style.transform = translateY;
+    this.setState(prev => ({
+      ctnrArr: prev.ctnrArr.concat(translateY)
+    }));
+  }
+
+  checkStyles(index) {
+    const { ctnrArr } = this.state;
+    const transform = ctnrArr[index];
+    if (!transform) return {};
+    return {
+      transform,
+      WebkitTransform: transform
+    };
+  }
+
+  flipTo({ to, duration, easeFn, direct }) {
+    const { from, easeFn: easeFnState, duration: durationState, systemArr } = this.state;
+    const len = this.ctnrArr.length;
+    this.beforeArr = num2PadNumArr(from, len);
+    this.afterArr = num2PadNumArr(to, len);
+    console.log(this.afterArr);
+    const draw = per => {
+      let temp = 0;
+      for (let d = len - 1; d >= 0; d -= 1) {
+        const alter = this.afterArr[d] - this.beforeArr[d];
+        temp += alter;
+        const fn = easeFn || easeFnState;
+        this._draw({
+          digit: d,
+          per: fn(per),
+          alter: direct ? alter : temp
+        });
+        temp *= 10;
+      }
+    };
+    const start = performance.now();
+    const dur = duration * 1000 || durationState;
+    const tick = now => {
+      const elapsed = now - start;
+      draw(elapsed / dur);
+      if (elapsed < dur) requestAnimationFrame(tick);
+      else {
+        this.setState({
+          from: to
+        });
+        draw(1);
+      }
+    };
+    window.addEventListener('resize', () => {
+      this.height = this.getRefsHeight.current.clientHeight / (systemArr.length + 1);
+      this.setState({
+        height: this.height
+      });
+      draw(1);
+    });
+    requestAnimationFrame(tick);
   }
 
   render() {
@@ -146,19 +204,27 @@ export default class Flip extends PureComponent {
     return (
       <div className={styles['number-flip']} style={{ height: `${height}px` }}>
         {node.map((Comp, i) => (
-          <Comp key={i} ref={i === 0 && this.getRefsHeight} />
+          <Comp key={i} ref={i === 0 && this.getRefsHeight} propClass={this.checkStyles(i)} />
         ))}
       </div>
     );
   }
 }
 
+const easeFn = pos => {
+  const i = pos / 0.5;
+  if (i / 0.5 < 1) {
+    return 0.5 * i ** 3;
+  }
+  return 0.5 * ((i - 2) ** 3 + 2);
+};
+
 Flip.defaultProps = {
   from: 0,
   to: 0,
   duration: 0.5,
   delay: 0,
-  easeFn: () => {}, // pos => ((pos /= 0.5) < 1 ? 0.5 * Math.pow(pos, 3) : 0.5 * (Math.pow(pos - 2, 3) + 2)),
+  easeFn,
   systemArr: [...Array(10).keys()],
   direct: true,
   separator: null,
