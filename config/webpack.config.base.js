@@ -75,7 +75,7 @@ exports.baseConfig = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        use: ['babel-loader', 'astroturf/loader']
       },
       {
         test: /\.svg$/,
