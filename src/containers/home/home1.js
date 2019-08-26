@@ -12,7 +12,8 @@ class Test1Component extends Component {
     }).isRequired,
     Todo: PropTypes.shape({
       todos: PropTypes.object,
-      getTodoList: PropTypes.func
+      getTodoList: PropTypes.func,
+      addTodoList: PropTypes.func
     }).isRequired
   };
 

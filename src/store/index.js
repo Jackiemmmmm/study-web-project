@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import { observable, computed, action } from 'mobx';
 
 class Todo {

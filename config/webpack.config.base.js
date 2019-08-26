@@ -54,10 +54,11 @@ exports.baseConfig = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
               sourceMap: true,
               importLoaders: 1,
-              localIdentName: '[local]'
+              modules: {
+                localIdentName: '[local]'
+              }
             }
           },
           'postcss-loader'
@@ -138,6 +139,7 @@ exports.baseConfig = {
     compress: true,
     port: 3005,
     host: '0.0.0.0',
+    open: true,
     historyApiFallback: {
       disableDotRule: true
     }
