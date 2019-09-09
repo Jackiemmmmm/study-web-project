@@ -1,0 +1,11 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "declaration-property-value-whitelist": {
+      "/color/": ["/^\\$|initial|inherit|transparent/"],
+      "font-size": ["/^\\$|inherit/"],
+      "font-weights": ["/^$/"],
+      "z-index": ["/^$/"]
+    }
+  }
+}

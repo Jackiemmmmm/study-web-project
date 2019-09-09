@@ -1,14 +1,17 @@
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const { baseConfig } = require('./webpack.config.base');
 
-module.exports = Object.assign({}, baseConfig, {
+module.exports = {
+  ...baseConfig,
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
-  output: Object.assign({}, baseConfig.output, {
+  output: {
+    ...baseConfig.output,
     filename: 'assets/[name].bundle.js',
     chunkFilename: 'assets/[name].chunk.js'
-  }),
-  module: Object.assign({}, baseConfig.module, {
+  },
+  module: {
+    ...baseConfig.module,
     rules: baseConfig.module.rules.concat([
       {
         test: /\.(ico|png|mp3|wav|jpg)$/,
@@ -27,6 +30,6 @@ module.exports = Object.assign({}, baseConfig, {
         }
       }
     ])
-  }),
+  },
   plugins: baseConfig.plugins.concat([new HardSourceWebpackPlugin()])
-});
+};

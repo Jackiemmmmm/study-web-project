@@ -4,14 +4,22 @@ const { baseConfig } = require('./webpack.config.base');
 
 const PUBLIC_PATH = '';
 
-module.exports = Object.assign({}, baseConfig, {
+module.exports = {
+  ...baseConfig,
   mode: 'production',
-  devtool: false, // 'source-map',
-  output: Object.assign({}, baseConfig.output, {
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  },
+  devtool: 'source-map',
+  output: {
+    ...baseConfig.output,
     filename: 'assets/[name].bundle.js?v=[hash:5]',
     chunkFilename: 'assets/[name].chunk.js?v=[chunkhash:5]'
-  }),
-  module: Object.assign({}, baseConfig.module, {
+  },
+  module: {
+    ...baseConfig.module,
     rules: baseConfig.module.rules.concat([
       {
         test: /\.(ico|png|mp3|wav|jpg)$/,
@@ -30,7 +38,7 @@ module.exports = Object.assign({}, baseConfig, {
         }
       }
     ])
-  }),
+  },
   plugins: baseConfig.plugins.concat([
     new SWPrecacheWebpackPlugin({
       cacheId: 'blog-front-end',
@@ -63,4 +71,4 @@ module.exports = Object.assign({}, baseConfig, {
       }
     })
   ])
-});
+};

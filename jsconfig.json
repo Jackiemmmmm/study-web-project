@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "~containers/*": ["src/containers/*"],
+      "~components/*": ["src/components/*"],
+      "~common/*": ["src/common/*"],
+      "~store/*": ["src/store/*"],
+      "~store": ["src/store"],
+      "~utils/*": ["src/utils/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

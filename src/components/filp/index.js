@@ -1,7 +1,7 @@
 import React, { PureComponent, forwardRef, createRef } from 'react';
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
-import styles from './styles.css';
+import styles from './styles.scss';
 
 const maxLenNum = (aNum, bNum) => (aNum > bNum ? aNum : bNum).toString().length;
 
@@ -125,7 +125,6 @@ export default class Flip extends PureComponent {
         if (delay) {
           setTimeout(() => this.flipTo({ to, direct }), delay * 1000);
         } else {
-          console.log(to);
           this.flipTo({ to, direct });
         }
       }
@@ -161,7 +160,6 @@ export default class Flip extends PureComponent {
     const len = this.ctnrArr.length;
     this.beforeArr = num2PadNumArr(from, len);
     this.afterArr = num2PadNumArr(to, len);
-    console.log(this.afterArr);
     const draw = per => {
       let temp = 0;
       for (let d = len - 1; d >= 0; d -= 1) {

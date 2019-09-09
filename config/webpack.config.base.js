@@ -3,6 +3,7 @@ const { resolve } = require('path');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
 const ROOT_PATH = resolve(__dirname);
@@ -22,6 +23,7 @@ exports.baseConfig = {
     path: BUILD_PATH
   },
   optimization: {
+    runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
       name: false,
@@ -48,7 +50,7 @@ exports.baseConfig = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.scss$/,
         use: [
           devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
           {
@@ -66,8 +68,8 @@ exports.baseConfig = {
       },
       {
         test: /\.(ttf|eot|otf|woff(2)?)(\?[a-z0-9]+)?$/,
-        include: resolve('../src/fonts'),
-        loader: 'url-loader',
+        include: resolve(BASE_PATH, 'fonts/'),
+        loader: 'file-loader',
         options: {
           limit: 1024,
           name: 'fonts/[name].[ext]'
@@ -92,10 +94,15 @@ exports.baseConfig = {
     ]
   },
   resolve: {
-    modules: ['src', 'node_modules'],
     extensions: ['.js', '.jsx', '.json'],
+    modules: [BASE_PATH, 'node_modules'],
     alias: {
-      'react-dom': '@hot-loader/react-dom'
+      'react-dom': '@hot-loader/react-dom',
+      '~containers': resolve(BASE_PATH, 'containers/'),
+      '~components': resolve(BASE_PATH, 'components/'),
+      '~common': resolve(BASE_PATH, 'common/'),
+      '~store': resolve(BASE_PATH, 'store/'),
+      '~utils': resolve(BASE_PATH, 'utils/')
     }
   },
   plugins: [
@@ -129,8 +136,11 @@ exports.baseConfig = {
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin({
       multiStep: true
+    }),
+    new StyleLintPlugin({
+      configFile: 'package.json'
     })
-    // new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin()
   ],
   devServer: {
     hotOnly: true,
@@ -142,6 +152,13 @@ exports.baseConfig = {
     open: true,
     historyApiFallback: {
       disableDotRule: true
+    },
+    proxy: {
+      '/graphql/proxy': {
+        target: 'https://graphql.org/swapi-graphql',
+        pathRewrite: { '^/graphql/proxy': '' },
+        changeOrigin: true
+      }
     }
   }
 };
