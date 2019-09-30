@@ -10,17 +10,17 @@ import smallest from './imgs/smallest.png';
 import './styles.scss';
 
 @connect(state => ({
-  counter: state.counter
+  counter: state.counter,
 }))
 class Votes extends PureComponent {
   static propTypes = {
-    counter: PropTypes.number.isRequired
+    counter: PropTypes.number.isRequired,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      test: 1
+      test: 1,
     };
   }
 

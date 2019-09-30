@@ -17,7 +17,7 @@ export const FormInput = props => {
 
 FormInput.propTypes = {
   name: PropTypes.string.isRequired,
-  checkError: PropTypes.func.isRequired
+  checkError: PropTypes.func.isRequired,
 };
 
 const Form = ({ children, onSubmit }) => {
@@ -26,15 +26,15 @@ const Form = ({ children, onSubmit }) => {
     valueToContext: name =>
       setFormContext(s => ({
         ...s,
-        valueList: { ...s.valueList, ...name }
+        valueList: { ...s.valueList, ...name },
       })),
     validateList: [],
     validateToContext: list =>
       setFormContext(s => ({
         ...s,
-        validateList: { ...s.validateList, ...list }
+        validateList: { ...s.validateList, ...list },
       })),
-    useSubmit: false
+    useSubmit: false,
   });
   const formSubmit = e => {
     const { valueList, validateList } = formValue;
@@ -50,12 +50,12 @@ const Form = ({ children, onSubmit }) => {
 };
 
 Form.defaultProps = {
-  onSubmit: () => {}
+  onSubmit: () => {},
 };
 
 Form.propTypes = {
   children: PropTypes.element.isRequired,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
 };
 
 export default Form;

@@ -16,7 +16,7 @@ import store from '~store';
 
 const client = new ApolloClient({
   // uri: 'https://48p1r2roz4.sse.codesandbox.io'
-  uri: '/graphql/proxy'
+  uri: '/graphql/proxy',
 });
 
 const Home = lazy(() => import(/* webpackChunkName: "Home" */ '~containers/home'));
@@ -28,11 +28,11 @@ const history = createBrowserHistory();
 
 export class ErrorBoundary extends Component {
   static propTypes = {
-    children: PropTypes.element.isRequired
+    children: PropTypes.element.isRequired,
   };
 
   state = {
-    error: false
+    error: false,
   };
 
   componentDidCatch(error, info) {
@@ -70,7 +70,7 @@ const Route = ({ path, exact, component: ChildComponent }) => (
 Route.propTypes = {
   path: PropTypes.string.isRequired,
   exact: PropTypes.bool.isRequired,
-  component: PropTypes.object.isRequired
+  component: PropTypes.object.isRequired,
 };
 
 const CheckLogin = props => {
@@ -79,7 +79,7 @@ const CheckLogin = props => {
 };
 
 CheckLogin.propTypes = {
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };
 
 const RequireLoginRoute = ({ path, exact, component: ChildComponent }) => (
@@ -105,7 +105,7 @@ const RequireLoginRoute = ({ path, exact, component: ChildComponent }) => (
 RequireLoginRoute.propTypes = {
   path: PropTypes.string.isRequired,
   exact: PropTypes.bool.isRequired,
-  component: PropTypes.object.isRequired
+  component: PropTypes.object.isRequired,
 };
 
 const App = () => (

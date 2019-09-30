@@ -25,7 +25,7 @@ export default class Flip extends PureComponent {
     systemArr: PropTypes.array,
     direct: PropTypes.bool,
     separator: PropTypes.array,
-    separateEvery: PropTypes.number
+    separateEvery: PropTypes.number,
   };
 
   constructor(props) {
@@ -39,7 +39,7 @@ export default class Flip extends PureComponent {
       systemArr,
       direct,
       separator,
-      separateEvery = 3
+      separateEvery = 3,
     } = props;
     this.state = {
       ctnrArr: [],
@@ -53,7 +53,7 @@ export default class Flip extends PureComponent {
       easeFn,
       systemArr,
       node: [],
-      height: 0
+      height: 0,
     };
     this.beforeArr = [];
     this.afterArr = [];
@@ -72,7 +72,7 @@ export default class Flip extends PureComponent {
       // easeFn,
       systemArr,
       from,
-      to
+      to,
     } = this.state;
 
     const digits = maxLenNum(from, to);
@@ -107,18 +107,18 @@ export default class Flip extends PureComponent {
     });
     this.setState(
       {
-        node: getNewNode
+        node: getNewNode,
       },
       () => {
         this.height = this.getRefsHeight.current.clientHeight / (systemArr.length + 1);
         this.setState({
-          height: this.height
+          height: this.height,
         });
         this.ctnrArr.map((item, d) =>
           this._draw({
             digit: d,
             per: 1,
-            alter: Math.floor(from / 10 ** d)
+            alter: Math.floor(from / 10 ** d),
           })
         );
         if (to === undefined) return;
@@ -141,7 +141,7 @@ export default class Flip extends PureComponent {
     const modNum = (((per * alter + from) % 10) + 10) % 10;
     const translateY = `translateY(${-modNum * this.height}px)`;
     this.setState(prev => ({
-      ctnrArr: prev.ctnrArr.concat(translateY)
+      ctnrArr: prev.ctnrArr.concat(translateY),
     }));
   }
 
@@ -151,7 +151,7 @@ export default class Flip extends PureComponent {
     if (!transform) return {};
     return {
       transform,
-      WebkitTransform: transform
+      WebkitTransform: transform,
     };
   }
 
@@ -169,7 +169,7 @@ export default class Flip extends PureComponent {
         this._draw({
           digit: d,
           per: fn(per),
-          alter: direct ? alter : temp
+          alter: direct ? alter : temp,
         });
         temp *= 10;
       }
@@ -182,7 +182,7 @@ export default class Flip extends PureComponent {
       if (elapsed < dur) requestAnimationFrame(tick);
       else {
         this.setState({
-          from: to
+          from: to,
         });
         draw(1);
       }
@@ -190,7 +190,7 @@ export default class Flip extends PureComponent {
     window.addEventListener('resize', () => {
       this.height = this.getRefsHeight.current.clientHeight / (systemArr.length + 1);
       this.setState({
-        height: this.height
+        height: this.height,
       });
       draw(1);
     });
@@ -226,5 +226,5 @@ Flip.defaultProps = {
   systemArr: [...Array(10).keys()],
   direct: true,
   separator: null,
-  separateEvery: 3
+  separateEvery: 3,
 };

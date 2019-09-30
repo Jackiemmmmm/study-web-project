@@ -8,20 +8,20 @@ export default class Effect extends PureComponent {
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({
-        id: PropTypes.string.isRequired
-      })
-    }).isRequired
+        id: PropTypes.string.isRequired,
+      }),
+    }).isRequired,
   };
 
   render() {
     const {
       match: {
-        params: { id }
-      }
+        params: { id },
+      },
     } = this.props;
     const component = {
       debounce: <Debounce />,
-      'lazy-load': <LazyLoad />
+      'lazy-load': <LazyLoad />,
     };
     return component[id];
   }

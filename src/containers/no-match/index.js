@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 class NoMatch extends PureComponent {
   static propTypes = {
     history: PropTypes.shape({
-      replace: PropTypes.func.isRequired
-    }).isRequired
+      replace: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      time: 3
+      time: 3,
     };
     this.timeout = null;
     this.renderTimeout = null;

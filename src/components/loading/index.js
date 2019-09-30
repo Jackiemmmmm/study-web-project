@@ -16,12 +16,12 @@ const Loading = ({ error, errorCallBack }) =>
 
 Loading.defaultProps = {
   error: false,
-  errorCallBack: () => {}
+  errorCallBack: () => {},
 };
 
 Loading.propTypes = {
   error: PropTypes.bool,
-  errorCallBack: PropTypes.func
+  errorCallBack: PropTypes.func,
 };
 
 export default Loading;

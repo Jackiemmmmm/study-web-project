@@ -58,7 +58,7 @@ const Input = ({ name, checkError, isRequired, getInputValue, useSubmit }) => {
 Input.defaultProps = {
   isRequired: false,
   getInputValue: () => {},
-  useSubmit: false
+  useSubmit: false,
 };
 
 Input.propTypes = {
@@ -66,7 +66,7 @@ Input.propTypes = {
   checkError: PropTypes.func.isRequired,
   isRequired: PropTypes.bool,
   getInputValue: PropTypes.func,
-  useSubmit: PropTypes.bool
+  useSubmit: PropTypes.bool,
 };
 
 export default Input;
