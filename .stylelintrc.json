@@ -1,5 +1,6 @@
 {
   "extends": "stylelint-config-standard",
+  "ignoreFiles": ["**/*.js"],
   "rules": {
     "declaration-property-value-whitelist": {
       "/color/": ["/^\\$|initial|inherit|transparent/"],
